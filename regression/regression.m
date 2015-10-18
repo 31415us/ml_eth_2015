@@ -26,6 +26,20 @@ fprintf(msg);
 
 %% Feature Normalization
 if (normalization)
+    maxDataSet = max(xDataSet); % Get the maximum in each column
+    minDataSet = min(xDataSet); % Get the minimum in each column
+    meanDataSet = mean(xDataSet); % Get the mean in each column
+    
+    % Substract the Mean of the column for each value
+    xDataSetMinusMean = xDataSet - repmat(meanDataSet, mDS, 1);
+    
+    % Divide by the range for each value
+    rangeDataSet = repmat(maxDataSet - minDataSet, mDS, 1); % Create range matrix
+    xDataSet = xDataSetMinusMean ./ rangeDataSet;
+    
+    % Print the sucess message
+    msg = 'Training data normalized successfully.\n';
+    fprintf(msg);
     
 end
 
