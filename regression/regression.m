@@ -1,7 +1,9 @@
 %% Control Variables
-filename = 'data/train.csv'; %File containing the Training Data
-rmIndexes = true; %Remove first column of the dataSet if contains the indexes
-normalization = true; %Activate or Desactivate the feature Normalization
+filename = 'data/train.csv'; % File containing the Training Data
+rmIndexes = true; % Remove first column of the dataSet if contains the indexes
+normalization = true; % Activate or Desactivate the feature Normalization
+learningRate = 0.01; % Learning rate for the gradient descent
+repetition = 3000; % Number of repeticion of the gradient descent algorithm
 
 
 %% Import Training Data
@@ -46,3 +48,32 @@ end
 %% Gradient Descent
 % http://www.codeproject.com/Articles/879043/Implementing-Gradient-Descent-to-Solve-a-Linear-Re
 
+xDataSet = [ones(mDS, 1) xDataSet]; % Add one column of 1 to include \theta_0
+
+parameters = zeros(size(xDataSet, 2),1); % Initiate the matrix of theta
+
+costFctOverRept = ones(repetition, 1);
+
+% Running gradient descent
+
+disp('Computing the Gradient Descent...');
+
+for i = 1:repetition
+    Xtheta = xDataSet * parameters;
+    parameters = parameters - (learningRate/mDS) * xDataSet'*(Xtheta-yDataSet);
+    
+    % Compute the cost function for this iteration
+    costFctOverRept(i) = (1/2*mDS)*(Xtheta-yDataSet)'*(Xtheta-yDataSet);
+end
+
+% TODO
+disp('           |    25%   50%   75%    |');
+disp('Progress : |=====|=====|=====|=====|');
+disp('Gradient Descent computed successfully.')
+
+% Plot the cost function over the number of repeticion
+figure
+plot(costFctOverRept);
+title('Cost Function Over Repeticion');
+xlabel('#Repetition');
+ylabel('Cost Function');
