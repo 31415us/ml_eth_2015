@@ -74,7 +74,7 @@ for i = 1:repetition
      reverseStr = repmat(sprintf('\b'), 1, length(msg));
 end
 
-fprintf('\nGradient Descent computed successfully.')
+fprintf('\nGradient Descent computed successfully.\n')
 
 
 % Plot the cost function over the number of repeticion
@@ -100,9 +100,30 @@ data2validate = csvread(filenameValidate);
 
 % Remove indexes
 indexesValidate = data2validate(:,1);
+data2validate = data2validate(:,2:end);
+
+
+%% Normalize Data to Validate
+if (normalization)
+    mDV = size(data2validate,1); % Number of Entries in the data to validate
+    
+    % Substract the Mean of the column for each value
+    data2validateMinusMean = data2validate - repmat(meanDataSet, mDV, 1);
+    
+    % Divide by the range for each value
+    rangeDataSet = repmat(maxDataSet - minDataSet, mDV, 1); % Create range matrix
+    data2validate = data2validateMinusMean ./ rangeDataSet;
+    
+    % Print the sucess message
+    msg = 'Data to validate normalized successfully.\n';
+    fprintf(msg);
+    
+end
+
+%% Computing the Data to Validate
 
 % Add a column of 1
-data2validate = [ones(size(data2validate,1), 1) data2validate(:,2:end)];
+data2validate = [ones(size(data2validate,1), 1) data2validate];
 
 % Compute the result
 validateData = data2validate * parameters;
@@ -118,5 +139,5 @@ fclose(fid);
 format long
 dlmwrite(filenameResult, validateData, '-append');
 
-fprintf('\nValidate data exported successfully.\n')
+fprintf('Validate data exported successfully.\n')
 
