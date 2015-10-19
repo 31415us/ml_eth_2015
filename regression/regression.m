@@ -1,14 +1,16 @@
 %% Control Variables
-filename = 'data/train.csv'; % File containing the Training Data
+filenameTrain = 'data/train.csv'; % File containing the Training Data
+filenameValidate = 'data/validate_and_test.csv'; % File containing the data to validate
+filenameResult = 'result.csv'; % Name of the file to create 
+
 rmIndexes = true; % Remove first column of the dataSet if contains the indexes
 normalization = true; % Activate or Desactivate the feature Normalization
 learningRate = 0.01; % Learning rate for the gradient descent
 repetition = 3000; % Number of repeticion of the gradient descent algorithm
 
-
 %% Import Training Data
 % Import all the data set from the csv file
-dataSet = csvread(filename);
+dataSet = csvread(filenameTrain);
 
 % Remove the index from the dataSet
 if (rmIndexes)
@@ -72,12 +74,49 @@ for i = 1:repetition
      reverseStr = repmat(sprintf('\b'), 1, length(msg));
 end
 
-fprintf('\nGradient Descent computed successfully.\n')
+fprintf('\nGradient Descent computed successfully.')
 
 
 % Plot the cost function over the number of repeticion
-figure
+subplot(1,2,1);
 plot(costFctOverRept);
 title('Cost Function Over Repeticion');
 xlabel('#Repetition');
 ylabel('Cost Function');
+
+% Plot the difference between the train value and the validate one
+result4dataset = xDataSet * parameters;
+diffDataSetResult = yDataSet - result4dataset;
+
+subplot(1,2,2);
+plot((1:mDS)', diffDataSetResult); % Plot with x starting at 1
+title('Difference between DataSet and computed values');
+xlabel('Id Data Set');
+ylabel('Difference');
+
+%% Import Data to Validate
+% Import all the data set from the csv file
+data2validate = csvread(filenameValidate);
+
+% Remove indexes
+indexesValidate = data2validate(:,1);
+
+% Add a column of 1
+data2validate = [ones(size(data2validate,1), 1) data2validate(:,2:end)];
+
+% Compute the result
+validateData = data2validate * parameters;
+
+% Put back the index
+validateData = [indexesValidate validateData];
+
+% Write to the csv file
+fid = fopen(filenameResult, 'w');
+fprintf(fid, 'Id,Delay\n');
+fclose(fid);
+
+format long
+dlmwrite(filenameResult, validateData, '-append');
+
+fprintf('\nValidate data exported successfully.\n')
+
