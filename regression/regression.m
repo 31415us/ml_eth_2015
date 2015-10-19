@@ -46,7 +46,6 @@ if (normalization)
 end
 
 %% Gradient Descent
-% http://www.codeproject.com/Articles/879043/Implementing-Gradient-Descent-to-Solve-a-Linear-Re
 
 xDataSet = [ones(mDS, 1) xDataSet]; % Add one column of 1 to include \theta_0
 
@@ -56,7 +55,8 @@ costFctOverRept = ones(repetition, 1);
 
 % Running gradient descent
 
-disp('Computing the Gradient Descent...');
+fprintf('Computing the Gradient Descent...');
+reverseStr = ''; % Use to print the percentage
 
 for i = 1:repetition
     Xtheta = xDataSet * parameters;
@@ -64,12 +64,16 @@ for i = 1:repetition
     
     % Compute the cost function for this iteration
     costFctOverRept(i) = (1/2*mDS)*(Xtheta-yDataSet)'*(Xtheta-yDataSet);
+    
+     % Display the progress
+     percentDone = 100 * i / repetition;
+     msg = sprintf('%3.1f', percentDone);
+     fprintf([reverseStr, msg]);
+     reverseStr = repmat(sprintf('\b'), 1, length(msg));
 end
 
-% TODO
-disp('           |    25%   50%   75%    |');
-disp('Progress : |=====|=====|=====|=====|');
-disp('Gradient Descent computed successfully.')
+fprintf('\nGradient Descent computed successfully.\n')
+
 
 % Plot the cost function over the number of repeticion
 figure
