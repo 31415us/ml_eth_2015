@@ -4,7 +4,12 @@ filenameValidate = 'data/validate_and_test.csv'; % File containing the data to v
 filenameResult = 'result.csv'; % Name of the file to create 
 
 rmIndexes = true; % Remove first column of the dataSet if contains the indexes
+
 normalization = true; % Activate or Desactivate the feature Normalization
+normOpti = true; % Use the informations given to normalize (NOT BETTER!!!!)
+rangeOpti = [6 128 72 72 120 14 7 31000 768 24 960 960 7488 27];
+meanOpti = [5 96 44 44 100 9 4.5 16500 640 20 544 544 4256 22.5];
+
 learningRate = 0.01; % Learning rate for the gradient descent
 repetition = 3000; % Number of repeticion of the gradient descent algorithm
 
@@ -30,16 +35,22 @@ fprintf(msg);
 
 %% Feature Normalization
 if (normalization)
-    maxDataSet = max(xDataSet); % Get the maximum in each column
-    minDataSet = min(xDataSet); % Get the minimum in each column
-    meanDataSet = mean(xDataSet); % Get the mean in each column
-    
-    % Substract the Mean of the column for each value
-    xDataSetMinusMean = xDataSet - repmat(meanDataSet, mDS, 1);
-    
-    % Divide by the range for each value
-    rangeDataSet = repmat(maxDataSet - minDataSet, mDS, 1); % Create range matrix
-    xDataSet = xDataSetMinusMean ./ rangeDataSet;
+    if (normOpti)
+        xDataSetMinusMean = xDataSet - repmat(meanOpti, mDS, 1);
+        xDataSet = xDataSetMinusMean ./ repmat(rangeOpti, mDS, 1);
+        
+    else
+        maxDataSet = max(xDataSet); % Get the maximum in each column
+        minDataSet = min(xDataSet); % Get the minimum in each column
+        meanDataSet = mean(xDataSet); % Get the mean in each column
+
+        % Substract the Mean of the column for each value
+        xDataSetMinusMean = xDataSet - repmat(meanDataSet, mDS, 1);
+
+        % Divide by the range for each value
+        rangeDataSet = repmat(maxDataSet - minDataSet, mDS, 1); % Create range matrix
+        xDataSet = xDataSetMinusMean ./ rangeDataSet;
+    end
     
     % Print the sucess message
     msg = 'Training data normalized successfully.\n';
@@ -76,7 +87,7 @@ end
 
 fprintf('\nGradient Descent computed successfully.\n')
 
-
+figure;
 % Plot the cost function over the number of repeticion
 subplot(1,2,1);
 plot(costFctOverRept);
@@ -107,13 +118,19 @@ data2validate = data2validate(:,2:end);
 if (normalization)
     mDV = size(data2validate,1); % Number of Entries in the data to validate
     
-    % Substract the Mean of the column for each value
-    data2validateMinusMean = data2validate - repmat(meanDataSet, mDV, 1);
+    if (normOpti)
+        data2validateMinusMean = data2validate - repmat(meanOpti, mDV, 1);
+        data2validate = data2validateMinusMean ./ repmat(rangeOpti, mDV, 1);
     
-    % Divide by the range for each value
-    rangeDataSet = repmat(maxDataSet - minDataSet, mDV, 1); % Create range matrix
-    data2validate = data2validateMinusMean ./ rangeDataSet;
+    else
+        % Substract the Mean of the column for each value
+        data2validateMinusMean = data2validate - repmat(meanDataSet, mDV, 1);
+
+        % Divide by the range for each value
+        rangeDataSet = repmat(maxDataSet - minDataSet, mDV, 1); % Create range matrix
+        data2validate = data2validateMinusMean ./ rangeDataSet;
     
+    end
     % Print the sucess message
     msg = 'Data to validate normalized successfully.\n';
     fprintf(msg);
