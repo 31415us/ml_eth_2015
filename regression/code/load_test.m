@@ -1,16 +1,10 @@
-function [T, Indices] = load_test(path, meanX, sX, transforms)
+function [T, Indices] = load_test(path, meanX, sX)
     M = csvread(path);
     Indices = M(:,1);
     % drop indices
     M = M(:,2:end);
     
-    [rows, cols] = size(M);
-    
-    T = [];
-    
-    for i = 1:cols
-        T = [T transforms{i}(M(:, i))];
-    end
+    T = transform(M);
     
     [rows, cols] = size(T);
     

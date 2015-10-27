@@ -1,15 +1,10 @@
-function [X, meanX, stdX, Y, meanY, stdY] = load_data(input_path, transforms)
+function [X, meanX, stdX, Y, meanY, stdY] = load_data(input_path)
     M = csvread(input_path);
     % drop indices
-    M = M(:,2:end);
+    Y = M(:,end);
+    M = M(:,2:end-1);
     
-    [rows, cols] = size(M);
-    
-    X = [];
-    
-    for i = 1:cols
-        X = [X transforms{i}(M(:,i))];
-    end
+    X = transform(M);
     
     [rows, cols] = size(X);
     
@@ -20,12 +15,8 @@ function [X, meanX, stdX, Y, meanY, stdY] = load_data(input_path, transforms)
     X = X ./ (ones(rows, 1) * stdX);
     
     % extract Y and and its mean/std
-    Y = X(:,end);
-    meanY = meanX(:,end);
-    stdY = stdX(:,end);
+    meanY = mean(Y);
+    stdY = std(Y);
+    Y = (Y - meanY) ./ stdY;
     
-    % drop Y from X
-    X = X(:,1:end-1);
-    meanX = meanX(:,1:end-1);
-    stdX = stdX(:,1:end-1);
 end
