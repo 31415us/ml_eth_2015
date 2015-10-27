@@ -8,5 +8,9 @@ function M = transform(X)
         end
     end
     
+    for i = 1:5
+        reduced = [reduced X(:,i).^3];
+    end
+    
     M = reduced;
 end
