@@ -8,7 +8,10 @@ function [out] = lasso_regression(data_path, validation_path)
     disp(stats.MSE(stats.IndexMinMSE))
     
     best_beta = B(:, stats.IndexMinMSE);
-    disp(best_beta)
+    
+    %lassoPlot(B, stats, 'PlotType', 'CV');
+    
+    %disp(best_beta)
     best_intercept = stats.Intercept(stats.IndexMinMSE);
     
     [T, Indices] = load_test(validation_path, mX, sX);  
