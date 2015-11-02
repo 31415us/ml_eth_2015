@@ -2,9 +2,9 @@ function [X, meanX, stdX, labels] = load_data(input_path)
     M = csvread(input_path);
     % drop indices
     labels = uint8(M(:,end));
-    M = M(:,2:end-1);
+    X = M(:,2:end-1);
     
-    X = transform(M);
+    X = transform(X);
     
     [rows, ~] = size(X);
     
@@ -13,4 +13,6 @@ function [X, meanX, stdX, labels] = load_data(input_path)
     stdX = std(X, 1);
     X = X - ones(rows, 1) * meanX;
     X = X ./ (ones(rows, 1) * stdX);
+    
+    %X = random_feature_projection(X);
 end
