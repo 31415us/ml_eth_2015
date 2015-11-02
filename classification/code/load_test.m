@@ -6,7 +6,7 @@ function [T, Indices] = load_test(path, meanX, sX)
     
     T = transform(M);
     
-    [rows, cols] = size(T);
+    [rows, ~] = size(T);
     
     T = T - ones(rows, 1) * meanX;
     T = T ./ (ones(rows, 1) * sX);

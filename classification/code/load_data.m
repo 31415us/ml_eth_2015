@@ -1,4 +1,4 @@
-function [X, meanX, stdX, Y, meanY, stdY] = load_data(input_path)
+function [Xwake, Xrem, Xnrem, meanX, stdX] = load_data(input_path)
     M = csvread(input_path);
     % drop indices
     Y = M(:,end);
@@ -6,7 +6,7 @@ function [X, meanX, stdX, Y, meanY, stdY] = load_data(input_path)
     
     X = transform(M);
     
-    [rows, cols] = size(X);
+    [rows, ~] = size(X);
     
     % normalize X
     meanX = mean(X, 1);
@@ -14,9 +14,11 @@ function [X, meanX, stdX, Y, meanY, stdY] = load_data(input_path)
     X = X - ones(rows, 1) * meanX;
     X = X ./ (ones(rows, 1) * stdX);
     
-    % extract Y and and its mean/std
-    meanY = mean(Y);
-    stdY = std(Y);
-    Y = (Y - meanY) ./ stdY;
+    wakeIndices = Y == 0;
+    remIndices = Y == 1;
+    nremIndices = Y == 2;
     
+    Xwake = X(wakeIndices,:);
+    Xrem = X(remIndices,:);
+    Xnrem = X(nremIndices,:);
 end
