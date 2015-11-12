@@ -1,5 +1,5 @@
-function [ Xdata, Ydata ] = load_data( input_path )
-%LOAD_DATA Summary of this function goes here
+function [ XYdata, Xdata, Ydata ] = load_data( input_path )
+%LOAD_DATA loads the training data
 %   input_path     path to the file containing the datas
 %
 %   xData          input datas
@@ -7,10 +7,11 @@ function [ Xdata, Ydata ] = load_data( input_path )
     
     M = csvread(input_path);
     
-    % Separate the indices, the XData and the YData
+    % Separate the indices, the Xdata and the Ydata
     Xdata = M(:,2:end-1);
     Ydata = M(:,end);
+    XYdata = [Xdata Ydata];
     
-    disp('Data loaded successfully.');
+    disp('Training datas loaded successfully.');
 
 end

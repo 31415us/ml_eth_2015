@@ -1,5 +1,5 @@
 function [] = write_results( index_start, output )
-% Write the results in a correctly formatted file
+% WRITE_RESULTS writes the results in a correctly formated file
 %   index_start   first id to start indexing the output
 %   output        vector only containing the different class
 
