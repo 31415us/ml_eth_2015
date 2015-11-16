@@ -10,6 +10,4 @@ function [T, Indices] = load_test(path, meanX, sX)
     
     T = T - ones(rows, 1) * meanX;
     T = T ./ (ones(rows, 1) * sX);
-    
-    %T = random_feature_projection(T);
 end

@@ -13,6 +13,4 @@ function [X, meanX, stdX, labels] = load_data(input_path)
     stdX = std(X, 1);
     X = X - ones(rows, 1) * meanX;
     X = X ./ (ones(rows, 1) * stdX);
-    
-    %X = random_feature_projection(X);
 end
