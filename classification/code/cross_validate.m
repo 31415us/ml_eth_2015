@@ -5,6 +5,6 @@ function mean_cv_error = cross_validate(classifiers, X, Y)
         
     mcr = crossval(f, X, Y, 'partition', part);
     
-    mean_cv_error = mcr;
+    mean_cv_error = mean(mcr);
 end
 

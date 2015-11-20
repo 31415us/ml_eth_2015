@@ -6,7 +6,7 @@ function M = transform(X)
 %   M     Final Matrix with all the feature transformations
 
     % Apply sqrt to the last column
-    M = [X(:,1:end-1) (sqrt(X(:, end)))];
+    M = [X(:,1:end-1) (sqrt(1 + X(:, end)))];
     
     % Add new dimensions containing the square of the first columns
     M = [M M(:,1:end-1).^2];
