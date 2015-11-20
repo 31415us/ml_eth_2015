@@ -2,6 +2,7 @@
 [index_start, X_test] = load_test('/data/validate_and_test.csv');
 [X_prepfull, x_mean, x_var] = normalize(X_train);
 X_testprep = zeros(size(X_test));
+
 for i=1:size(X_test,2)
     X_testprep(:,i) = X_test(:,i) - x_mean(i);
     X_testprep(:,i) = X_test(:,i)/x_var(i);
@@ -68,6 +69,9 @@ maxnumcat = 10;
 
 maxnumsplit = size(X_prep,1)-1;
 %maxnumsplit = 200;
+%maxnumsplit = 30; %Is the best
+
+% Take care of split criteria
 
 mergeleaves = 'on';
 %mergeleaves = 'off';
