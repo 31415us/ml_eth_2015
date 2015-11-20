@@ -4,14 +4,10 @@ function pred = rbf_svm(X, Y, T)
     wake_or_nrem = Y == 0 | Y == 2;
     rem_or_nrem = Y == 1 | Y == 2;
 
-    %wake_rem_params = find_params(X(wake_or_rem, :), Y(wake_or_rem));
-    %wake_nrem_params = find_params(X(wake_or_nrem, :), Y(wake_or_nrem));
-    %rem_nrem_params = find_params(X(rem_or_nrem, :), Y(rem_or_nrem));
+    wake_rem_params = find_params(X(wake_or_rem, :), Y(wake_or_rem));
+    wake_nrem_params = find_params(X(wake_or_nrem, :), Y(wake_or_nrem));
+    rem_nrem_params = find_params(X(rem_or_nrem, :), Y(rem_or_nrem));
     
-    wake_rem_params = [1.375, 3.75];
-    wake_nrem_params = [1.5, 3.75];
-    rem_nrem_params = [5.625, 15.75];
-
     learners = cell(1,3);
     learners{1} = templateSVM('BoxConstraint', wake_rem_params(1), 'KernelFunction', 'rbf', 'KernelScale', wake_rem_params(2));
     learners{2} = templateSVM('BoxConstraint', wake_nrem_params(1), 'KernelFunction', 'rbf', 'KernelScale', wake_nrem_params(2));
