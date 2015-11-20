@@ -29,8 +29,8 @@ function pred = d_tree(X, Y, T)
     numvariables = 'all';
     %numvariables = 10;
 
-    prunes = 'on';
-    %prunes = 'off';
+    %prunes = 'on';
+    prunes = 'off';
 
     prunec = 'error';
     %prunec = 'impurity';
