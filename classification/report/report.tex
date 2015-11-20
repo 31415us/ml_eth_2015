@@ -18,7 +18,7 @@
 \renewcommand{\familydefault}{\sfdefault}
 
 \title{Machine Learning 2014: Project 1 - Regression Report}
-\author{ivankaya@student.ethz.ch\\vlucas@student.ethz.ch\\ piusv@studemY nt.ethz.ch\\}
+\author{ivankaya@student.ethz.ch\\vlucas@student.ethz.ch\\piusv@student.ethz.ch\\}
 \date{\today}
 
 \begin{document}
@@ -37,30 +37,33 @@
 %command-line or GUI-tools describe what you did.
 
 We exclusively used $Matlab$ for this assignment.
-We used $csvread$ to read the provided training and validation data sets and $csvwrite$ to write our predictions. We also used $fitctree$ for desicision tree, $fitcdiscr$ for discriminant analysis, $fitcnb$ for multiclass naive Bayes, $fitcecoc$ for our support vector machine, $fitcknn$ for the KNN classifier and $TreeBagger$ for the random forest. Moreover, the voting process was simply realize using the matlab function $mode$.
-
+We used $csvread$ to read the provided training and validation data sets and $csvwrite$ to write our predictions. We also used $fitctree$ for desicision tree, $fitcdiscr$ for discriminant analysis, $fitcnb$ for multiclass naive Bayes, $fitcecoc$ and $fitcsvm$ for our support vector machine, $fitcknn$ for the KNN classifier and $TreeBagger$ for the random forest. Moreover, the voting process was simply realized using the matlab function $mode$.
 
 \section{Algorithm}
 %Describe the algorithm you used for regression (e.g. ordinary least squares, ridge regression, $\ldots$)
 
-For our final submission, we decided to compute 3 differents predicates and merge them using a simple voting process. The first batch of predicates was obtained with... The second one was... Finally, the last one was ...
-By merging our 3 best solutions we managed to slightly improve our results.
-
+We used $3$ binary SVMs with gaussian kernels in a one-vs-one scheme. To train
+thes binary classifiers we used the $fitcsvm$ function provided by $Matlab$.
+To combine the three for the final prediction we used the $fitcecoc$ function.
 
 \section{Features}
 %Did you construct any new features? What feature transforms did you use?
 
-We used the kernel ... hyperparameters ... [Pius knows his stuff :) ]
+We did not construct any additional features since we used SVM with gaussian
+kernels.
 
 \section{Parameters}
 %How did you find the parameters of your model? (What parameters have you searched over, cross validation procedure, $\ldots$)
 
-Try and errors...
+We used 10 fold crossvalidation to find optimal hyperparameters $C$ and $\gamma$,
+where $C$ is the maximum slack and $\gamma$ the width of the gaussian kernel.
 
 \section{Lessons Learned}
 %What other algorithms, tools or methods did you try out that didn't work well?
 %Why do you think they performed worse than what you used for your final submission?
 
+Additionally to the solution described above we tried using a majority voting
+system, where we used several different additional classification methods.
 The majority voting is not working that great because we don't have enough diversity in the classifiers so trying to boost doesn't help.
 
 \end{document}
