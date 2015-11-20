@@ -1,11 +1,11 @@
 function pred = dis_as(X, Y, T)
-%DISCRIMINANT_ANALYSIS Performs discriminant analysis
+%DISCRIMINANT ANALYSIS
 %   
-%   X     blabla
-%   Y     blabla
-%   T     Data to validate and test
+%   X     Variables
+%   Y     Predictors
+%   T     Datas to validate and test
 %
-%   pred  blabla
+%   pred  Predicates
 
     discrimType = 'linear';
     %discrimType = 'quadratic';

@@ -1,11 +1,11 @@
 function pred = multi_nb(X, Y, T)
 %MULTICLASS NAIVE BAYES
 %   
-%   X     blabla
-%   Y     blabla
-%   T     Data to validate and test
+%   X     Variables
+%   Y     Predictors
+%   T     Datas to validate and test
 %
-%   pred  blabla
+%   pred  Predicates
 
     distname = 'kernel';
     %distname = 'mn';

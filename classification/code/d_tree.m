@@ -1,11 +1,11 @@
 function pred = d_tree(X, Y, T)
 %DECISION TREE
 %   
-%   X     blabla
-%   Y     blabla
-%   T     Data to validate and test
+%   X     Variables
+%   Y     Predictors
+%   T     Datas to validate and test
 %
-%   pred  blabla
+%   pred  Predicates
 
     algorithm = 'Exact';
     %algorithm = 'PullLeft';
