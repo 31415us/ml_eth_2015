@@ -17,7 +17,7 @@
 
 \renewcommand{\familydefault}{\sfdefault}
 
-\title{Machine Learning 2014: Project 1 - Regression Report}
+\title{Machine Learning 2014: Project 2 - Classification Report}
 \author{ivankaya@student.ethz.ch\\vlucas@student.ethz.ch\\piusv@student.ethz.ch\\}
 \date{\today}
 
@@ -43,7 +43,7 @@ We used $csvread$ to read the provided training and validation data sets and $cs
 %Describe the algorithm you used for regression (e.g. ordinary least squares, ridge regression, $\ldots$)
 
 We used $3$ binary SVMs with gaussian kernels in a one-vs-one scheme. To train
-thes binary classifiers we used the $fitcsvm$ function provided by $Matlab$.
+these binary classifiers we used the $fitcsvm$ function provided by $Matlab$.
 To combine the three for the final prediction we used the $fitcecoc$ function.
 
 \section{Features}
