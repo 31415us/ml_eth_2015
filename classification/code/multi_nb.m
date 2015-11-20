@@ -17,8 +17,8 @@ function pred = multi_nb(X, Y, T)
     %kernel = 'normal';
     kernel = 'triangle';
 
-    support = 'positive';
-    %support = 'unbounded';
+    %support = 'positive';
+    support = 'unbounded';
 
     if strcmp(distname, 'kernel')
         MNB = fitcnb(X, Y, 'DistributionNames', distname, 'Kernel', kernel, 'Support', support);
