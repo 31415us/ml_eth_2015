@@ -286,3 +286,8 @@ sympy-plots-for-*.tex/
 # WinEdt
 *.bak
 *.sav
+
+# Data from last project
+/cancer_classification/data/feature_engineering/*
+
+classification/out.csv
