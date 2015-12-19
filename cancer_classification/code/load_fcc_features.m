@@ -12,6 +12,10 @@ function fcc = load_fcc_features(img_ids, image_dir)
     
     fcc = repmat(struct('x0', 0, 'y0', 0, 'code', 0), num_ids, 1 );
     
+    % Use to display the progress
+    fprintf('[PROGRESS] load_fcc_features...');
+    reverseStr = ''; % Use to print the percentage
+    
     for i = 1:num_ids
         msk_path = strcat(image_dir, sprintf('%04d', img_ids(i)), '_msk.png');
         
@@ -38,8 +42,17 @@ function fcc = load_fcc_features(img_ids, image_dir)
         coord_perim = bwtraceboundary(msk_perim,[x_perim(1) y_perim(1)],'W',8,Inf,'counterclockwise');
         
         fcc(i) = chaincode(coord_perim);
+        
+        % Display the progress
+        percentDone = 100 * i / num_ids;
+        msg = sprintf('%3.1f', percentDone);
+        fprintf([reverseStr, msg]);
+        reverseStr = repmat(sprintf('\b'), 1, length(msg));
+        
     end
-
-
+    
+    % New line after finish to display the progress
+    fprintf('\n[SUCCESS] load_fcc_features\n');
+    
 end
 
