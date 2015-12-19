@@ -11,6 +11,8 @@ function [X, Y] = load_data(train_path, image_prefix)
     % Get the foreground and background color mean from the images
     FG_BG = load_fgbg_features(train_ids, image_prefix);
     
+    % TODO integrate the FCC features extraction
+    
     X = [PHOG_SIG, FG_BG];
 end
 
