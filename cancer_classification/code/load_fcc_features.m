@@ -39,7 +39,10 @@ function out = load_fcc_features(img_ids, image_dir)
         
         fcc = chaincode(coord_perim);
         h = histcounts(fcc.code);
-        out(i, :) = h ./ sum(h);
+        h_norm = h - min(h);
+        ix = find(h_norm == 0);
+        s = circshift(h_norm, [0, -(ix - 1)]);
+        out(i, :) = s ./ sum(s);
     end
 end
 

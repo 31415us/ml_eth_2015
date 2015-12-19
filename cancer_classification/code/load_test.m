@@ -4,7 +4,8 @@ function [T, ix] = load_test(test_path, images_path)
     
     PHOG_SIG = M(:,2:end);
     FG_BG = load_fgbg_features(ix, images_path);
+    FCC = load_fcc_features(ix, images_path);
     
-    T = [PHOG_SIG, FG_BG];
+    T = [PHOG_SIG, FG_BG, FCC];
 end
 
