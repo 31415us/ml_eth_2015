@@ -11,17 +11,14 @@ function fgbg = load_fgbg_features(img_ids, image_dir)
         
         msk = logical(im2double(imread(mask_path)));
         img = rgb2gray(imread(img_path));
-        
-        %props = region_props(img, msk);
-        corner_ratio = corner_border_ratio(msk);
+
         fg = transpose(histc(img(msk), 0:8:255));
         bg = transpose(histc(img(not(msk)), 0:8:255));
         
         fg = fg ./ sum(fg);
         bg = bg ./ sum(bg);
-        
-        %fgbg(i,:) = [fg, bg, props];
-        fgbg(i,:) = [corner_ratio, fg, bg];
+
+        fgbg(i,:) = [fg, bg];
     end
 end
 
