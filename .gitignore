@@ -289,3 +289,4 @@ sympy-plots-for-*.tex/
 
 # Data from last project
 /cancer_classification/data/feature_engineering/*
+classification/out.csv
