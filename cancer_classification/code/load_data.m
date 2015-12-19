@@ -9,12 +9,12 @@ function [X, Y] = load_data(train_path, image_prefix)
     PHOG_SIG = M(:,2:end-1);
     
     % Get the foreground and background color mean from the images
-    FG_BG = load_fgbg_features(train_ids, image_prefix);
+    COLOR = load_color_features(train_ids, image_prefix);
     
     FCC = load_fcc_features(train_ids, image_prefix);
     
     LBP = load_lbp_features(train_ids, image_prefix);
     
-    X = [PHOG_SIG, FG_BG, FCC, LBP];
+    X = [PHOG_SIG, COLOR, FCC, LBP];
 end
 
