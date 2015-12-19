@@ -1,9 +1,7 @@
 function fgbg = load_fgbg_features(img_ids, image_dir)
     [num_ids, ~] = size(img_ids);
-    
-    %fgbg = zeros(num_ids, 76);
-    
-    fgbg = zeros(num_ids, 65);
+
+    fgbg = zeros(num_ids, 64);
     
     for i = 1:num_ids
         mask_path = strcat(image_dir, sprintf('%04d', img_ids(i)), '_msk.png');
