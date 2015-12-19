@@ -1,4 +1,4 @@
-function fcc = load_fcc_features(img_ids, image_dir)
+function out = load_fcc_features(img_ids, image_dir)
 %LOAD_FCC_FEATURES compute the Freeman Chain Code (fcc) for every cell
 %
 %   Freeman Chain Code, FCC: FCC describes the nucleus? boundary as a
@@ -10,7 +10,7 @@ function fcc = load_fcc_features(img_ids, image_dir)
 
     [num_ids, ~] = size(img_ids);
     
-    fcc = repmat(struct('x0', 0, 'y0', 0, 'code', 0), num_ids, 1 );
+    out = zeros(num_ids, 8);
     
     for i = 1:num_ids
         msk_path = strcat(image_dir, sprintf('%04d', img_ids(i)), '_msk.png');
@@ -37,9 +37,9 @@ function fcc = load_fcc_features(img_ids, image_dir)
         
         coord_perim = bwtraceboundary(msk_perim,[x_perim(1) y_perim(1)],'W',8,Inf,'counterclockwise');
         
-        fcc(i) = chaincode(coord_perim);
+        fcc = chaincode(coord_perim);
+        h = histcounts(fcc.code);
+        out(i, :) = h ./ sum(h);
     end
-
-
 end
 
