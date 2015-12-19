@@ -1,4 +1,4 @@
-function out = load_fcc_features(img_ids, image_dir)
+function [fcc_out, num_obj] = load_fcc_features(img_ids, image_dir)
 %LOAD_FCC_FEATURES compute the Freeman Chain Code (fcc) for every cell
 %
 %   Freeman Chain Code, FCC: FCC describes the nucleus? boundary as a
@@ -10,29 +10,34 @@ function out = load_fcc_features(img_ids, image_dir)
 
     [num_ids, ~] = size(img_ids);
     
-    out = zeros(num_ids, 8);
+    fcc_out = zeros(num_ids, 8);
+    num_obj = zeros(num_ids, 1);
     
     for i = 1:num_ids
         msk_path = strcat(image_dir, sprintf('%04d', img_ids(i)), '_msk.png');
         
-        msk = im2bw(imread(msk_path));
-        msk_perim = bwperim(msk);
+        msk = ~im2bw(imread(msk_path));
         
-        % Remove external line
-        msk_perim(1,:) = 0;
-        msk_perim(end,:) = 0;
-        msk_perim(:,1) = 0;
-        msk_perim(:,end) = 0;
+        CC = bwconncomp(msk);
+        numPixels = cellfun(@numel,CC.PixelIdxList);
+        
+        num_obj(i,:) = CC.NumObjects;
+        
+        % Isolate the biggest region
+        msk_biggest = zeros(CC.ImageSize(1), CC.ImageSize(2));
+        [~,idx] = max(numPixels);
+        msk_biggest(CC.PixelIdxList{idx}) = 1;
+        
+        % Find the perimeter of the biggest region
+        msk_perim = bwperim(msk_biggest);
         
         % ----- DEBUG -----
 %         disp(msk_path);
-%         subplot(1,2,1), imshow(msk);
-%         subplot(1,2,2), imshow(msk_perim);
+%         subplot(1,3,1), imshow(msk);
+%         subplot(1,3,2), imshow(msk_biggest);
+%         subplot(1,3,3), imshow(msk_perim);
 %         pause;
         
-        
-        % TODO cell can separate in multiple smaller cell, find better way
-        % to select cell
         [x_perim, y_perim] = find(msk_perim);
         
         coord_perim = bwtraceboundary(msk_perim,[x_perim(1) y_perim(1)],'W',8,Inf,'counterclockwise');
@@ -40,7 +45,8 @@ function out = load_fcc_features(img_ids, image_dir)
         fcc = chaincode(coord_perim);
         fcc_norm = normalizeFCC(fcc.code);
         h = histcounts(fcc_norm,0:8);
-        out(i, :) = h ./ sum(h);
+        fcc_out(i, :) = h ./ sum(h);
+        
     end
 end
 
