@@ -13,10 +13,11 @@ function [X, Y] = load_data(train_path, image_prefix)
     
     FCC = load_fcc_features(train_ids, image_prefix);
     
-    LBP = load_lbp_features(train_ids, image_prefix);
+    %LBP = load_lbp_features(train_ids, image_prefix);
     
     PROPS = load_region_props(train_ids, image_prefix);
     
-    X = [PHOG_SIG, COLOR, FCC, LBP, PROPS];
+    %X = [PHOG_SIG, COLOR, FCC, LBP, PROPS];
+    X = [PHOG_SIG, COLOR, FCC, PROPS];
 end
 
