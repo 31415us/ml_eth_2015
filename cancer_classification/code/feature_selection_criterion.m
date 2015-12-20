@@ -1,9 +1,10 @@
 function score = feature_selection_criterion(Xtrain, Ytrain, Xtest, Ytest)
+    forest = TreeBagger(100, Xtrain, Ytrain);
     
-    test_pred = rbf_svm(Xtrain, Ytrain, Xtest);
+    test_pred = predict(forest, Xtest);
     
-    [num_test, ~] = size(Ytest);
+    test_pred = str2double(test_pred);
     
-    score = sum(test_pred == Ytest) / num_test;
+    score = - sum(test_pred == Ytest);
 end
 
