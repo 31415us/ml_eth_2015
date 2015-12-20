@@ -11,10 +11,13 @@ function [X, Y] = load_data(train_path, image_prefix)
     % Get the foreground and background color mean from the images
     COLOR = load_color_features(train_ids, image_prefix);
     
+    % Get Freeman Chain Code features of cell border
     FCC = load_fcc_features(train_ids, image_prefix);
     
+    % local binary pattern features
     %LBP = load_lbp_features(train_ids, image_prefix);
     
+    % features from matlabs regionprops function
     PROPS = load_region_props(train_ids, image_prefix);
     
     %X = [PHOG_SIG, COLOR, FCC, LBP, PROPS];
