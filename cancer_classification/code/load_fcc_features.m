@@ -1,4 +1,4 @@
-function [fcc_out, num_obj] = load_fcc_features(img_ids, image_dir)
+function fcc_numObj = load_fcc_features(img_ids, image_dir)
 %LOAD_FCC_FEATURES compute the Freeman Chain Code (fcc) for every cell
 %
 %   Freeman Chain Code, FCC: FCC describes the nucleus? boundary as a
@@ -10,8 +10,7 @@ function [fcc_out, num_obj] = load_fcc_features(img_ids, image_dir)
 
     [num_ids, ~] = size(img_ids);
     
-    fcc_out = zeros(num_ids, 8);
-    num_obj = zeros(num_ids, 1);
+    fcc_numObj = zeros(num_ids, 9);
     
     for i = 1:num_ids
         msk_path = strcat(image_dir, sprintf('%04d', img_ids(i)), '_msk.png');
@@ -21,7 +20,7 @@ function [fcc_out, num_obj] = load_fcc_features(img_ids, image_dir)
         CC = bwconncomp(msk);
         numPixels = cellfun(@numel,CC.PixelIdxList);
         
-        num_obj(i,:) = CC.NumObjects;
+        fcc_numObj(i,1) = CC.NumObjects;
         
         % Isolate the biggest region
         msk_biggest = zeros(CC.ImageSize(1), CC.ImageSize(2));
@@ -45,7 +44,7 @@ function [fcc_out, num_obj] = load_fcc_features(img_ids, image_dir)
         fcc = chaincode(coord_perim);
         fcc_norm = normalizeFCC(fcc.code);
         h = histcounts(fcc_norm,0:8);
-        fcc_out(i, :) = h ./ sum(h);
+        fcc_numObj(i, 2:9) = h ./ sum(h);
         
     end
 end
